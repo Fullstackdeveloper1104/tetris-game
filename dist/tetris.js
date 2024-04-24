@@ -578,6 +578,7 @@ Tetris.prototype = {
 		views.setGameOver(this.isGameOver);
 		if (this.isGameOver){
 			views.setFinalScore(this.score);
+			stopCounterInterval();
 		}
 	},
 	// Check and update game data
