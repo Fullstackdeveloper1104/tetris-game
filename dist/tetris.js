@@ -58,39 +58,24 @@ var drawBox = function(ctx,colors,x,y,gridSize,radius = 2){
 
 
 						
-			var gradient = ctx.createLinearGradient(x, y, x + gridSize, y + gridSize);
+			var gradient = ctx.createLinearGradient(x, y, x, y+gridSize);
 			colors.forEach(function(colorStop) {
 				gradient.addColorStop(colorStop.position, colorStop.color);
 			});
-		
+			// ctx.lineTo(x + gridSize - radius, y);
+
 			ctx.beginPath();
 			ctx.moveTo(x + radius, y);
 			ctx.lineTo(x + gridSize - radius, y);
-			ctx.quadraticCurveTo(x + gridSize, y, x + gridSize, y + radius);
-			ctx.lineTo(x + gridSize, y + gridSize - radius);
-			ctx.quadraticCurveTo(x + gridSize, y + gridSize, x + gridSize - radius, y + gridSize);
-			ctx.lineTo(x + radius, y + gridSize);
-			ctx.quadraticCurveTo(x, y + gridSize, x, y + gridSize - radius);
-			ctx.lineTo(x, y + radius);
-			ctx.quadraticCurveTo(x, y, x + radius, y);
-			ctx.closePath();
-		
 
+
+			ctx.rect(x,y,gridSize,gridSize);
 			ctx.fillStyle = gradient;
 			ctx.fill();
-		
-			// Optional: Draw border
-			ctx.strokeStyle = 'black';
-			ctx.lineWidth = 0.5;
+			ctx.strokeStyle= colors[2].color;
+			ctx.lineWidth=1;
 			ctx.stroke();
-		
-			// ctx.rect(x,y,gridSize,gridSize);
-			// ctx.fillStyle = gradient;
-			// ctx.fill();
-			// ctx.strokeStyle= boxBorderColor;
-			// ctx.lineWidth=1;
-			// ctx.stroke();
-			// ctx.closePath();
+			ctx.closePath();
 }
 
 /*
@@ -192,40 +177,51 @@ module.exports = tetrisCanvas;
 
 	var colors = [
 		[
-			{ position: 0, color: '#4CAF50' }, // Green dark
-			{ position: 0.5, color: '#8BC34A' }, // Green light
-			{ position: 1, color: '#4CAF50' } // Green dark
+			{ position: 1, color: 'rgba(147, 160, 148, 1)' }, // Green dark
+			{ position: 0.95, color: 'rgba(30, 233, 134, 1)' }, // Green light
+			{ position: 0.8, color: 'rgba(26, 170, 77, 1)'},
+  			{ position: 0.5, color: 'rgba(43, 170, 56, 1)'},
+  			{ position: 0.25, color: 'rgba(19, 167, 69, 1)'},
+  			{ position: 0.13, color: 'rgba(248, 255, 251, 1)'},
+  			{ position: 0, color: 'rgba(13, 127, 48, 0.85)'}
 		],
 		[
-			{ position: 0, color: '#2196F3' }, // Blue dark
-			{ position: 0.5, color: '#64B5F6' }, // Blue light
-			{ position: 1, color: '#2196F3' } // Blue dark
+			{position:0, color:'rgba(167, 7, 13, 0.85)'},
+			{position:0.13, color:'rgba(248, 255, 251, 1)'},
+			{position:0.25, color:'rgba(117, 9, 9, 1)'},
+			{position:0.5, color:'rgba(190, 5, 8, 1)'},
+			{position:0.75, color:'rgba(223, 13, 13, 1)'},
+			{position:0.89, color:'rgba(223, 35, 37, 1)'},
+			{position:1, color:'rgba(147, 160, 148, 1)'},
+
 		],
 		[
-			{ position: 0, color: '#FF9800' }, // Orange dark
-			{ position: 0.5, color: '#FFC107' }, // Orange light
-			{ position: 1, color: '#FF9800' } // Orange dark
+			{position:0, color:'rgba(162, 167, 15, 0.85)'},
+			{position:0.13, color:'rgba(248, 255, 251, 1)'},
+			{position:0.25, color:'rgba(155, 160, 0, 1)'},
+			{position:0.5, color:'rgba(163, 161, 0, 1)'},
+			{position:0.75, color:'rgba(230, 222, 17, 1)'},
+			{position:0.89, color:'rgba(229, 233, 30, 1)'},
+			{position:1, color:'rgba(147, 160, 148, 1)'},
 		],
 		[
-			{ position: 0, color: '#FFEB3B' }, // Yellow dark
-			{ position: 0.5, color: '#FFD600' }, // Yellow light
-			{ position: 1, color: '#FFEB3B' } // Yellow dark
+			{position:0, color:'rgba(11, 16, 180, 0.85)'},
+			{position:0.13, color:'rgba(248, 255, 251, 1)'},
+			{position:0.25, color:'rgba(33, 0, 180, 1)'},
+			{position:0.5, color:'rgba(29, 4, 180, 1)'},
+			{position:0.75, color:'rgba(49, 28, 223, 1)'},
+			{position:0.89, color:'rgba(80, 41, 255, 1)'},
+			{position:1, color:'rgba(147, 160, 148, 1)'},
 		],
 		[
-			{ position: 0, color: '#E91E63' }, // Pink dark
-			{ position: 0.5, color: '#FF4081' }, // Pink light
-			{ position: 1, color: '#E91E63' } // Pink dark
+			{position:0, color:'rgba(180, 11, 123, 0.85)'},
+			{position:0.13, color:'rgba(248, 255, 251, 1)'},
+			{position:0.25, color:'rgba(123, 4, 93, 1)'},
+			{position:0.5, color:'rgba(157, 0, 126, 1)'},
+			{position:0.75, color:'rgba(200, 15, 156, 1)'},
+			{position:0.89, color:'rgba(255, 41, 199, 1)'},
+			{position:1, color:'rgba(147, 160, 148, 1)'},
 		],
-		[
-			{ position: 0, color: '#9C27B0' }, // Purple dark
-			{ position: 0.5, color: '#E040FB' }, // Purple light
-			{ position: 1, color: '#9C27B0' } // Purple dark
-		],
-		[
-			{ position: 0, color: '#FF5722' }, // Deep Orange dark
-			{ position: 0.5, color: '#FF7043' }, // Deep Orange light
-			{ position: 1, color: '#FF5722' } // Deep Orange dark
-		]
 	];
 	
 //sidebar width
@@ -825,7 +821,7 @@ ShapeZ.prototype =
 ShapeZR.prototype = {
 
 	init:function(){
-		this.color = COLORS[Math.floor(Math.random() * 7)];
+		this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
 		this.state = 0;
 		this.allBoxes = {};
 		this.y = 0;
