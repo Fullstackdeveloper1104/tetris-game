@@ -17,6 +17,7 @@ var rewardInfo = $('rewardInfo');
 var reward = $('reward');
 var gameOver = $('gameOver');
 var btnRestart = $('restart');
+var btnNewGame = $('btnNewGame');
 var finalScore = $('finalScore');
 
 

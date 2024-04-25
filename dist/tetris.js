@@ -448,8 +448,7 @@ Tetris.prototype = {
 		this.reset();
 
 		this._initEvents();
-		this._fireShape();
-
+		// this._fireShape();
 
 	},
 	//Reset game
@@ -459,7 +458,7 @@ Tetris.prototype = {
 		this.level = 1;
 		this.lines = 0;
 		this.score = 0;
-		this.counterCounts = 90;
+		this.counterCounts = this.mode?90: 180;
 		this.startTime = new Date().getTime();
 		this.currentTime = this.startTime;
 		this.prevTime = this.startTime;
@@ -470,8 +469,7 @@ Tetris.prototype = {
 		views.setGameOver(this.isGameOver);
 		views.setCounterDown(this.counterCounts);
 		this._draw();
-		consts.COUNTER_COUNTS = 90;
-		startCounterInterval();
+		consts.COUNTER_COUNTS = this.mode?90:180;
 	},
 	//Start game
 	start:function(){
@@ -500,7 +498,6 @@ Tetris.prototype = {
 			return;
 		}
 		switch(e.keyCode){
-			
 			case 37:{this.shape.goLeft(matrix);this._draw();}
 			break;
 			
@@ -526,6 +523,21 @@ Tetris.prototype = {
 	_initEvents:function(){
 		window.addEventListener('keydown',utils.proxy(this._keydownHandler,this),false);
 		views.btnRestart.addEventListener('click',utils.proxy(this._restartHandler,this),false);
+		views.btnNewGame.addEventListener('click',utils.proxy(this._newGame,this),false);
+	},
+	_newGame:function(){
+		this._fireShape();
+		this.shape.y = 0;
+		this.shape = shapes.randomShape();
+		this.preparedShape = shapes.randomShape();
+		this._draw();
+		canvas.drawPreviewShape(this.preparedShape);
+		this.mode = confirm("Please select game mode. If you select okay, 90 second mode or 180 second mode")
+		this.reset();
+		this.start();
+		stopCounterInterval();
+		startCounterInterval();
+
 	},
 
 	// Fire a new random shape
@@ -584,6 +596,7 @@ Tetris.prototype = {
 	// Check and update game data
 	_check:function(){
 		var rows = checkFullRows(this.matrix);
+		console.log(this.lines,'4444');
 		if (rows.length){
 			if(rows.length > 1 ) this.lines += rows.length;
 			removeRows(this.matrix,rows);
@@ -593,6 +606,7 @@ Tetris.prototype = {
 			this.score += score + reward;
 			views.setScore(this.score);
 			views.setReward(reward);
+			this._checkLevel();
 		}
 		else{
 			this.score += this.level;
@@ -601,7 +615,9 @@ Tetris.prototype = {
 	},
 	// Check and update game level
 	_checkLevel:function(){
-		this.level = parseInt(this.lines/4) + 1
+		console.log(this.lines,'4444');
+
+		this.level = parseInt(this.lines/(this.mode?3:4)) + 1
 		views.setLevel(this.level);
 		this.interval = calcIntervalByLevel(this.level -1);
 		// var currentTime = new Date().getTime();
@@ -1093,8 +1109,10 @@ var reward = $('reward');
 var gameOver = $('gameOver');
 var btnRestart = $('restart');
 var finalScore = $('finalScore');
+var btnNewGame = $('btnNewGame');
 var counter =  $('counter');
-
+var mode1 = $('mode1');
+var mode2 = $('mode2');
 //defaults
 var SIDE_WIDTH = consts.SIDE_WIDTH;
 
@@ -1158,6 +1176,7 @@ var tetrisView = {
 	  this.scene = scene;
 	  this.preview = preview;
 	  this.btnRestart = btnRestart;
+	  this.btnNewGame = btnNewGame;
 	  layoutView(this.container,maxW,maxH);
 	  this.scene.focus();
 
