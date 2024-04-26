@@ -652,7 +652,7 @@ var counterInterval;
 
 var startCounterInterval = function(){
 	counterInterval = setInterval(()=>{
-		views.setCounterDown(consts.COUNTER_COUNTS --)
+		views.setCounterDown(--consts.COUNTER_COUNTS)
 	},1000)
 }
 var stopCounterInterval = function(){
