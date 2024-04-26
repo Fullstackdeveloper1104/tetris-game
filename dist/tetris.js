@@ -606,7 +606,6 @@ Tetris.prototype = {
 			this.score += score + reward;
 			views.setScore(this.score);
 			views.setReward(reward);
-			this._checkLevel();
 		}
 		else{
 			this.score += this.level;
@@ -615,8 +614,6 @@ Tetris.prototype = {
 	},
 	// Check and update game level
 	_checkLevel:function(){
-		console.log(this.lines,'4444');
-
 		this.level = parseInt(this.lines/(this.mode?3:4)) + 1
 		views.setLevel(this.level);
 		this.interval = calcIntervalByLevel(this.level -1);
