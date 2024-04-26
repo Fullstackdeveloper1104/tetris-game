@@ -221,7 +221,23 @@ module.exports = tetrisCanvas;
 			{position:0.75, color:'rgba(200, 15, 156, 1)'},
 			{position:0.89, color:'rgba(255, 41, 199, 1)'},
 			{position:1, color:'rgba(147, 160, 148, 1)'},
-		],
+		],[
+			{position:0, color:'rgba(3, 169, 244, 1)'},
+			{position:0.13, color:'rgba(230, 247, 255, 1)'},
+			{position:0.25, color:'rgba(5, 128, 183, 1)'},
+			{position:0.5, color:'rgba(5, 147, 210, 1)'},
+			{position:0.75, color:'rgba(3, 169, 244, 1)'},
+			{position:0.89, color:'rgba(116, 212, 255, 1)'},
+			{position:1, color:'rgba(62, 195, 255, 1)'},
+		],[
+			{position:0, color:'rgba(255, 129, 0, 1)'},
+			{position:0.13, color:'rgba(255, 247, 238, 1)'},
+			{position:0.25, color:'rgba(227, 118, 0, 1)'},
+			{position:0.5, color:'rgba(255, 136, 0, 1)'},
+			{position:0.75, color:'rgba(253, 138, 0, 1)'},
+			{position:0.89, color:'rgba(255, 208, 151, 1)'},
+			{position:1, color:'rgba(255, 130, 19, 1)'},
+		]
 	];
 	
 //sidebar width
@@ -834,8 +850,8 @@ ShapeT.prototype =
 ShapeZ.prototype =
 ShapeZR.prototype = {
 
-	init:function(){
-		this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+	init:function(colorIndex){
+		this.color = COLORS[colorIndex];
 		this.state = 0;
 		this.allBoxes = {};
 		this.y = 0;
@@ -967,7 +983,7 @@ function randomShape()
 		case 5: shape = new ShapeZR();			break;
 		case 6: shape = new ShapeI();			break;
 	}
-	shape.init();
+	shape.init(result);
 	return shape;
 }
 
